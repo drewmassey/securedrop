@@ -464,6 +464,12 @@ def test_authorized_user_can_get_single_reply(journalist_app, test_files,
             reply.journalist.username
         assert response.json['journalist_uuid'] == \
             reply.journalist.uuid
+        expected_first_name_value = reply.journalist.first_name or ''
+        assert response.json['journalist_first_name'] == \
+            expected_first_name_value
+        expected_last_name_value = reply.journalist.last_name or ''
+        assert response.json['journalist_last_name'] == \
+            expected_last_name_value
         assert response.json['is_deleted_by_source'] is False
         assert response.json['filename'] == \
             test_files['source'].replies[0].filename
@@ -576,6 +582,10 @@ def test_authorized_user_can_get_current_user_endpoint(journalist_app,
         assert response.json['is_admin'] is False
         assert response.json['username'] == test_journo['username']
         assert response.json['uuid'] == test_journo['journalist'].uuid
+        expected_first_name_value = test_journo['journalist'].first_name or ''
+        assert response.json['first_name'] == expected_first_name_value
+        expected_last_name_value = test_journo['journalist'].last_name or ''
+        assert response.json['last_name'] == expected_last_name_value
 
 
 def test_request_with_missing_auth_header_triggers_403(journalist_app):
